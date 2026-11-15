@@ -1,0 +1,34 @@
+# Roblox MeshPart gate — ≤20k tris, textures ≤1024 px
+# Mirrors: qtmesh generate3d … --game-preset roblox-meshpart
+# Use --config (not bare --profile) so this file wins over the repo root qtmesh.yml.
+
+version: 1
+profile: configs/profiles/roblox-meshpart.json
+
+scan:
+  roots:
+    - assets/roblox/
+  include:
+    - "**/*.glb"
+    - "**/*.gltf"
+  exclude:
+    - "**/.git/**"
+
+rules:
+  file_name_case: snake_case
+  max_triangle_count: 20000
+  max_triangles_per_mesh: 20000
+  max_vertex_count: 60000
+  max_material_count: 8
+  max_submesh_count: 8
+  max_draw_calls: 16
+  max_texture_resolution: 1024
+  require_uv_channels: 1
+  texture_not_power_of_two: true
+  # Embedded GLB bitmaps show as "*0"; still inspect resolution when present.
+  require_textures_exist: false
+  allow_embedded_textures: true
+  max_acmr: 3.0
+
+report:
+  fail_on: error

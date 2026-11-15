@@ -1,0 +1,32 @@
+{
+  "id": "roblox-accessory",
+  "displayName": "Roblox Accessory / Layered Clothing",
+  "description": "Roblox accessory & layered-clothing upload limits: ≤4,000 triangles and textures ≤1024 px (matches qtmesh --game-preset roblox-accessory). Hats, backpacks, tools, and cosmetics.",
+  "rules": {
+    "allowed_formats": ["fbx", "glb", "gltf", "obj"],
+    "max_triangle_count": 4000,
+    "max_triangles_per_mesh": 4000,
+    "max_vertex_count": 8000,
+    "max_material_count": 4,
+    "max_submesh_count": 4,
+    "max_draw_calls": 8,
+    "max_texture_resolution": 1024,
+    "texture_not_power_of_two": true,
+    "allowed_texture_formats": ["png", "jpg"],
+    "require_uv_channels": 1,
+    "max_acmr": 3.0,
+    "file_name_case": "snake_case"
+  },
+  "metadata": {
+    "inspect_textures": true,
+    "category": "roblox",
+    "platform": "roblox-accessory",
+    "scope": "validation",
+    "engineHints": ["roblox"],
+    "gamePreset": "roblox-accessory",
+    "uploadLimits": {
+      "maxTriangles": 4000,
+      "maxTexturePx": 1024
+    }
+  }
+}

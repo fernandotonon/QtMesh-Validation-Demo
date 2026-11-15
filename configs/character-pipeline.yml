@@ -1,0 +1,33 @@
+# Character pipeline gate — drop a Kimodo-merged final.glb under assets/good/
+# and this config enforces geometry + animation naming conventions.
+
+version: 1
+profile: mobile-low
+
+scan:
+  roots:
+    - assets/good/
+  include:
+    - "**/*character*"
+    - "**/final.glb"
+    - "**/2_rig.glb"
+  exclude:
+    - "**/.git/**"
+
+rules:
+  file_name_case: snake_case
+  max_triangle_count: 20000
+  max_vertex_count: 25000
+  max_bones: 64
+  max_texture_resolution: 2048
+  require_uv_channels: 1
+  detect_zero_weight_bones: true
+  # Enable once you place a rigged/animated character in assets/good/:
+  # require_skeleton: true
+  # require_animations: true
+  # require_animation_names: [idle, walk, run]
+  # max_anim_duration: 6.0
+  # redundant_keyframes_pct: 40
+
+report:
+  fail_on: error

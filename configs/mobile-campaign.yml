@@ -1,0 +1,49 @@
+# Demo config: "Ship to mobile" marketing story
+# Tight budgets make overbudget / oversized-texture / material findings obvious.
+# Softened texture-existence + manifold rules so embedded GLB props don't drown
+# the intentional stories (see docs/validation-stories.md).
+
+version: 1
+profile: mobile-low
+
+scan:
+  roots:
+    - assets/
+  include:
+    - "**/*.glb"
+    - "**/*.gltf"
+  exclude:
+    - "**/textures/**"
+    - "**/.git/**"
+
+rules:
+  file_name_case: snake_case
+  max_triangle_count: 25000
+  max_triangles_per_mesh: 12000
+  max_vertex_count: 25000
+  max_material_count: 8
+  max_draw_calls: 16
+  max_texture_resolution: 1024
+  require_uv_channels: 1
+  texture_not_power_of_two: true
+  # Catch deleted sidecars (missing_texture/). Embedded GLB "*0" refs are ignored
+  # under allow_embedded_textures when the bitmap is packed in the container.
+  require_textures_exist: true
+  allow_embedded_textures: true
+  allow_missing_materials: true
+  # UV-seam hard edges look "non-manifold" to the edge heuristic on tiny props;
+  # enable explicitly when demoing mesh_non_manifold.glb:
+  # detect_non_manifold_edges_pct: 1.0
+  # Soften ACMR so the triangle/material/texture stories stay the headline
+  max_acmr: 3.0
+
+scopes:
+  - path: "**/good/**"
+    rules:
+      max_triangle_count: 25000
+      require_uv_channels: 1
+      file_name_case: snake_case
+      require_textures_exist: false
+
+report:
+  fail_on: error

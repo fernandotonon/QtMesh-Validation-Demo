@@ -1,0 +1,26 @@
+# Demo config: modern console source-asset budgets
+
+version: 1
+profile: modern-console
+
+scan:
+  roots:
+    - assets/
+  include:
+    - "**/*.glb"
+    - "**/*.gltf"
+    - "**/*.fbx"
+  exclude:
+    - "**/textures/**"
+    - "**/.git/**"
+
+rules:
+  file_name_case: snake_case
+  max_texture_resolution: 4096
+  require_uv_channels: 1
+  detect_non_manifold_edges_pct: 1.0
+  detect_zero_weight_bones: true
+  require_textures_exist: true
+
+report:
+  fail_on: error

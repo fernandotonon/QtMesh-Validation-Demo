@@ -1,0 +1,65 @@
+# QtMesh Validation Demo — root scan config
+# Marketing demo: intentional good + bad assets so scans tell a clear story.
+# Local qtmesh.yml overrides QtMesh Cloud project rules when present.
+
+version: 1
+
+# Default demo target: mobile budgets (tight, easy to fail intentionally).
+# Override per-demo with: qtmesh scan --config configs/<name>.yml
+# Or use a built-in profile:   qtmesh scan --profile webgl assets/
+profile: mobile-low
+
+scan:
+  roots:
+    - assets/
+  include:
+    - "**/*.glb"
+    - "**/*.gltf"
+    - "**/*.fbx"
+    - "**/*.obj"
+  exclude:
+    - "**/textures/**"
+    - "**/reports/**"
+    - "**/.git/**"
+    - "**/node_modules/**"
+
+rules:
+  file_name_case: snake_case
+  max_triangle_count: 25000
+  max_triangles_per_mesh: 12000
+  max_vertex_count: 25000
+  max_material_count: 8
+  max_submesh_count: 8
+  max_draw_calls: 16
+  max_texture_resolution: 1024
+  require_uv_channels: 1
+  texture_not_power_of_two: true
+  allowed_texture_formats: [png, jpg, webp]
+  require_textures_exist: true
+  allow_missing_materials: true
+  allow_embedded_textures: true
+  require_skeleton: false
+  require_animations: false
+  # Soft ACMR — tiny hard-edged props can't hit mobile-low's 0.9 ceiling
+  max_acmr: 3.0
+  # Opt-in quality detectors (uncomment for deeper demos):
+  # detect_non_manifold_edges_pct: 1.0
+  # detect_overlapping_uvs_pct: 5.0
+  # ps1_rip_zero_area_pct: 5.0
+
+scopes:
+  - path: "**/good/**"
+    rules:
+      file_name_case: snake_case
+      max_triangle_count: 25000
+      require_uv_channels: 1
+      require_textures_exist: false
+
+  - path: "**/good/character*"
+    rules:
+      max_triangle_count: 20000
+      max_bones: 64
+
+report:
+  fail_on: error
+  format: both

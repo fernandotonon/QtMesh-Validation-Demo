@@ -1,0 +1,34 @@
+name: QtMesh Cloud Upload
+
+# Opt-in Cloud ingest for marketing dashboards / badges.
+# Requires repository secret QTMESH_CLOUD_TOKEN from https://qtmesh.dev
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - "assets/**"
+      - "qtmesh.yml"
+      - "configs/**"
+
+jobs:
+  cloud-scan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Scan + upload to QtMesh Cloud
+        uses: fernandotonon/QtMeshEditor@v1
+        with:
+          command: scan
+          options: --config configs/mobile-campaign.yml --report reports/cloud.json --strict-upload
+        env:
+          QTMESH_CLOUD_TOKEN: ${{ secrets.QTMESH_CLOUD_TOKEN }}
+
+      - name: Upload report artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: qtmesh-cloud-report
+          path: reports/

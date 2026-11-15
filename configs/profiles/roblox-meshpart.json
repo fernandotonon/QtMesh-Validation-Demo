@@ -1,0 +1,32 @@
+{
+  "id": "roblox-meshpart",
+  "displayName": "Roblox MeshPart",
+  "description": "Roblox Studio MeshPart upload limits: ≤20,000 triangles and textures ≤1024 px (matches qtmesh --game-preset roblox-meshpart). Validate source GLB/glTF before Import 3D.",
+  "rules": {
+    "allowed_formats": ["fbx", "glb", "gltf", "obj"],
+    "max_triangle_count": 20000,
+    "max_triangles_per_mesh": 20000,
+    "max_vertex_count": 40000,
+    "max_material_count": 8,
+    "max_submesh_count": 8,
+    "max_draw_calls": 16,
+    "max_texture_resolution": 1024,
+    "texture_not_power_of_two": true,
+    "allowed_texture_formats": ["png", "jpg"],
+    "require_uv_channels": 1,
+    "max_acmr": 3.0,
+    "detect_zero_weight_bones": true
+  },
+  "metadata": {
+    "inspect_textures": true,
+    "category": "roblox",
+    "platform": "roblox-meshpart",
+    "scope": "validation",
+    "engineHints": ["roblox"],
+    "gamePreset": "roblox-meshpart",
+    "uploadLimits": {
+      "maxTriangles": 20000,
+      "maxTexturePx": 1024
+    }
+  }
+}

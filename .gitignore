@@ -1,0 +1,30 @@
+# Generated reports (recreate with make demos)
+reports/**
+!reports/.gitkeep
+
+# Sidecars written by qtmesh vertex-cache / material tools
+assets/**/*.material
+# Literal "*0.png" embedded-texture dumps (filename starts with *)
+assets/**/\*0.png
+
+# OS / editor
+.DS_Store
+*.swp
+.idea/
+.vscode/
+
+# Local secrets
+.env
+.env.*
+*.token
+
+# Blender
+*.blend1
+
+# Optional heavy generated character pipelines
+assets/pipelines/character/**/1_model.glb
+assets/pipelines/character/**/2_rig.glb
+assets/pipelines/character/**/3_*.glb
+assets/pipelines/character/**/final.glb
+assets/pipelines/character/**/previews/
+assets/pipelines/character/**/report.json

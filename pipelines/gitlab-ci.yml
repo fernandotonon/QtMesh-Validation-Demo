@@ -1,0 +1,70 @@
+# Copy to .gitlab-ci.yml (or include) for GitLab marketing demos.
+# Set CI/CD variable QTMESH_CLOUD_TOKEN from https://qtmesh.dev
+
+stages:
+  - validate
+  - scan
+
+.qtmesh_image: &qtmesh_image
+  image: ghcr.io/fernandotonon/qtmesh:latest
+
+validate:good-crate:
+  <<: *qtmesh_image
+  stage: validate
+  script:
+    - qtmesh validate assets/good/crate_clean.glb --json
+
+scan:good-only:
+  <<: *qtmesh_image
+  stage: scan
+  script:
+    - mkdir -p reports
+    - qtmesh scan --config configs/good-only.yml --report reports/gitlab-good.json
+  artifacts:
+    paths: [reports/]
+    when: always
+
+scan:mobile-campaign:
+  <<: *qtmesh_image
+  stage: scan
+  script:
+    - mkdir -p reports
+    - qtmesh scan --config configs/mobile-campaign.yml --report reports/gitlab-mobile.json --no-upload || true
+  artifacts:
+    paths: [reports/]
+    when: always
+  allow_failure: true
+
+scan:roblox-good:
+  <<: *qtmesh_image
+  stage: scan
+  script:
+    - mkdir -p reports
+    - qtmesh scan assets/roblox/good --config configs/roblox-meshpart.yml --report reports/gitlab-roblox-good.json
+  artifacts:
+    paths: [reports/]
+    when: always
+
+scan:roblox-limits:
+  <<: *qtmesh_image
+  stage: scan
+  script:
+    - mkdir -p reports
+    - qtmesh scan --config configs/roblox-meshpart.yml --report reports/gitlab-roblox-meshpart.json --no-upload || true
+    - qtmesh scan --config configs/roblox-accessory.yml --report reports/gitlab-roblox-accessory.json --no-upload || true
+  artifacts:
+    paths: [reports/]
+    when: always
+  allow_failure: true
+
+scan:cloud-upload:
+  <<: *qtmesh_image
+  stage: scan
+  rules:
+    - if: $QTMESH_CLOUD_TOKEN
+  script:
+    - mkdir -p reports
+    - qtmesh scan --config configs/mobile-campaign.yml --report reports/gitlab-cloud.json --strict-upload
+  artifacts:
+    paths: [reports/]
+    when: always

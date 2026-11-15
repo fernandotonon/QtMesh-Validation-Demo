@@ -1,0 +1,32 @@
+# Scan only assets that should pass — use for "green badge" marketing screenshots.
+# Intentionally omits mobile-low's strict ACMR / manifold detectors so hard-edged
+# glTF props (UV seams) stay green; use mobile-campaign.yml for the red stories.
+
+version: 1
+
+scan:
+  roots:
+    - assets/good/
+  include:
+    - "**/*.glb"
+    - "**/*.gltf"
+  exclude:
+    - "**/.git/**"
+
+rules:
+  file_name_case: snake_case
+  max_triangle_count: 25000
+  max_triangles_per_mesh: 12000
+  max_vertex_count: 25000
+  max_material_count: 8
+  max_draw_calls: 16
+  max_texture_resolution: 2048
+  require_uv_channels: 1
+  require_textures_exist: false
+  allow_embedded_textures: true
+  allow_missing_materials: true
+  # Soft ACMR ceiling so Blender-exported props still pass after vertex-cache
+  max_acmr: 3.0
+
+report:
+  fail_on: error

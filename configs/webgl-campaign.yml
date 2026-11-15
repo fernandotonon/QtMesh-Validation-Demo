@@ -1,0 +1,35 @@
+# Demo config: browser / WebGL pipeline budgets
+
+version: 1
+profile: webgl
+
+scan:
+  roots:
+    - assets/
+  include:
+    - "**/*.glb"
+    - "**/*.gltf"
+  exclude:
+    - "**/textures/**"
+    - "**/.git/**"
+
+rules:
+  file_name_case: snake_case
+  max_triangle_count: 40000
+  max_triangles_per_mesh: 20000
+  max_material_count: 12
+  max_draw_calls: 24
+  max_texture_resolution: 2048
+  require_uv_channels: 1
+  texture_not_power_of_two: true
+  require_textures_exist: false
+  allow_embedded_textures: true
+  max_acmr: 3.0
+
+scopes:
+  - path: "**/missing_texture/**"
+    rules:
+      require_textures_exist: true
+
+report:
+  fail_on: error

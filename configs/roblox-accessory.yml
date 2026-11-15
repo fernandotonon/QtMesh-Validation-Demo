@@ -1,0 +1,33 @@
+# Roblox accessory / layered-clothing gate — ≤4k tris, textures ≤1024 px
+# Mirrors: qtmesh generate3d … --game-preset roblox-accessory
+# Use --config (not bare --profile) so this file wins over the repo root qtmesh.yml.
+
+version: 1
+profile: configs/profiles/roblox-accessory.json
+
+scan:
+  roots:
+    - assets/roblox/
+  include:
+    - "**/*.glb"
+    - "**/*.gltf"
+  exclude:
+    - "**/.git/**"
+
+rules:
+  file_name_case: snake_case
+  max_triangle_count: 4000
+  max_triangles_per_mesh: 4000
+  max_vertex_count: 12000
+  max_material_count: 4
+  max_submesh_count: 4
+  max_draw_calls: 8
+  max_texture_resolution: 1024
+  require_uv_channels: 1
+  texture_not_power_of_two: true
+  require_textures_exist: false
+  allow_embedded_textures: true
+  max_acmr: 3.0
+
+report:
+  fail_on: error

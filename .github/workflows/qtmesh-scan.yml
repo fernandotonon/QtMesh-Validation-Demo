@@ -1,0 +1,71 @@
+name: QtMesh Scan
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  scan-assets:
+    name: Scan demo assets
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Scan with QtMesh (mobile campaign — intentional failures OK)
+        uses: fernandotonon/QtMeshEditor@v1
+        with:
+          command: scan
+          options: >-
+            --config configs/mobile-campaign.yml
+            --report reports/ci-mobile.json
+            --sarif reports/ci-mobile.sarif
+            --no-upload
+        continue-on-error: true
+
+      - name: Scan good assets only (must pass)
+        uses: fernandotonon/QtMeshEditor@v1
+        with:
+          command: scan
+          options: --config configs/good-only.yml --report reports/ci-good.json --no-upload
+
+      - name: Roblox good assets under MeshPart (must pass)
+        uses: fernandotonon/QtMeshEditor@v1
+        with:
+          command: scan
+          options: >-
+            assets/roblox/good
+            --config configs/roblox-meshpart.yml
+            --report reports/ci-roblox-good.json
+            --no-upload
+
+      - name: Roblox issues under MeshPart (intentional failures OK)
+        uses: fernandotonon/QtMeshEditor@v1
+        with:
+          command: scan
+          options: >-
+            --config configs/roblox-meshpart.yml
+            --report reports/ci-roblox-meshpart.json
+            --no-upload
+        continue-on-error: true
+
+      - name: Upload scan reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: qtmesh-reports
+          path: reports/
+
+  validate-geometry:
+    name: Validate geometry samples
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Validate clean crate
+        uses: fernandotonon/QtMeshEditor@v1
+        with:
+          command: validate
+          input-file: assets/good/crate_clean.glb
+          options: --json
