@@ -17,6 +17,7 @@ jobs:
         uses: fernandotonon/QtMeshEditor@v1
         with:
           command: scan
+          input-file: assets
           options: >-
             --config configs/mobile-campaign.yml
             --report reports/ci-mobile.json
@@ -28,14 +29,17 @@ jobs:
         uses: fernandotonon/QtMeshEditor@v1
         with:
           command: scan
+          # Action defaults input-file to "." which overrides config roots —
+          # pin to assets/good so intentional issue assets are not scanned here.
+          input-file: assets/good
           options: --config configs/good-only.yml --report reports/ci-good.json --no-upload
 
       - name: Roblox good assets under MeshPart (must pass)
         uses: fernandotonon/QtMeshEditor@v1
         with:
           command: scan
+          input-file: assets/roblox/good
           options: >-
-            assets/roblox/good
             --config configs/roblox-meshpart.yml
             --report reports/ci-roblox-good.json
             --no-upload
@@ -44,6 +48,7 @@ jobs:
         uses: fernandotonon/QtMeshEditor@v1
         with:
           command: scan
+          input-file: assets/roblox
           options: >-
             --config configs/roblox-meshpart.yml
             --report reports/ci-roblox-meshpart.json

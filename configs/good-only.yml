@@ -12,6 +12,10 @@ scan:
     - "**/*.gltf"
   exclude:
     - "**/.git/**"
+    # Safety if a caller scans repo root with this config (CI must still
+    # pass input-file: assets/good — CLI path overrides roots).
+    - "**/issues/**"
+    - "**/roblox/issues/**"
 
 rules:
   file_name_case: snake_case
